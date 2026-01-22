@@ -1,5 +1,11 @@
 const API_ENDPOINT = '/api/chat';
 
+/**
+ * Sends a user prompt to the chat agent and processes the streaming response.
+ * @param prompt - The user's input message
+ * @param onChunk - Callback triggered for each received text fragment
+ * @returns Promise resolving to the complete message content
+ */
 export async function sendMessageToAgent(
   prompt: string,
   onChunk?: (text: string) => void

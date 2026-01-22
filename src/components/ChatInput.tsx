@@ -21,7 +21,6 @@ export default function ChatInput({ onSendMessage, disabled = false }: ChatInput
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    // Send on Enter, new line on Shift+Enter (only on desktop)
     if (e.key === 'Enter' && !e.shiftKey && window.innerWidth >= 640) {
       e.preventDefault();
       handleSubmit(e);
@@ -41,12 +40,12 @@ export default function ChatInput({ onSendMessage, disabled = false }: ChatInput
           placeholder="Ask about the weather..."
           disabled={disabled}
           rows={1}
-          className="flex-1 px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg sm:rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed resize-none"
+          className="flex-1 px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg sm:rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent disabled:bg-gray-100 dark:disabled:bg-gray-700 disabled:cursor-not-allowed resize-none bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 transition-colors duration-200"
         />
         <button
           type="submit"
           disabled={disabled || input.trim() === ''}
-          className="px-4 sm:px-6 md:px-8 py-2 sm:py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white text-sm sm:text-base font-medium rounded-lg sm:rounded-xl hover:from-blue-600 hover:to-indigo-700 disabled:from-gray-300 disabled:to-gray-300 disabled:cursor-not-allowed transition-all active:scale-95 shadow-md sm:shadow-lg disabled:shadow-none whitespace-nowrap"
+          className="px-4 sm:px-6 md:px-8 py-2 sm:py-3 bg-gradient-to-r from-blue-500 to-indigo-600 dark:from-blue-600 dark:to-indigo-700 text-white text-sm sm:text-base font-medium rounded-lg sm:rounded-xl hover:from-blue-600 hover:to-indigo-700 dark:hover:from-blue-700 dark:hover:to-indigo-800 disabled:from-gray-300 disabled:to-gray-300 dark:disabled:from-gray-600 dark:disabled:to-gray-600 disabled:cursor-not-allowed transition-all active:scale-95 shadow-md sm:shadow-lg disabled:shadow-none whitespace-nowrap"
         >
           {disabled ? (
             <span className="flex items-center gap-1 sm:gap-2">
@@ -59,16 +58,15 @@ export default function ChatInput({ onSendMessage, disabled = false }: ChatInput
         </button>
       </div>
       
-      {/* Character Counter - More compact on mobile */}
       {input.length > 0 && (
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1 text-[10px] sm:text-xs px-1">
-          <span className="text-gray-400 hidden sm:inline">
+          <span className="text-gray-400 dark:text-gray-500 hidden sm:inline">
             Press Enter to send, Shift+Enter for new line
           </span>
-          <span className="text-gray-400 sm:hidden">
+          <span className="text-gray-400 dark:text-gray-500 sm:hidden">
             Tap Send button to submit
           </span>
-          <span className={`${isNearLimit ? 'text-red-500 font-medium' : 'text-gray-400'}`}>
+          <span className={`${isNearLimit ? 'text-red-500 dark:text-red-400 font-medium' : 'text-gray-400 dark:text-gray-500'}`}>
             {remainingChars} chars left
           </span>
         </div>

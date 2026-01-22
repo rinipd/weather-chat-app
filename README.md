@@ -1,6 +1,6 @@
 # Weather Chat Assistant ⛅
 
-A real-time weather chat application built with Next.js and TypeScript.
+A real-time weather chat application built with Next.js 16 and TypeScript, featuring dark/light mode and streaming AI responses.
 
 ## 🚀 Quick Start
 
@@ -10,10 +10,6 @@ A real-time weather chat application built with Next.js and TypeScript.
 
 ### Installation
 ```bash
-# Clone repository
-git clone 
-cd weather-chat-app
-
 # Install dependencies
 npm install
 
@@ -23,31 +19,29 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### Build for Production
-```bash
-npm run build
-npm start
-```
-
 ---
 
 ## 🌟 Features
 
-- **Real-time Streaming**: AI responses appear word-by-word
-- **Responsive Design**: Works on mobile (320px+), tablet, and desktop
-- **Error Handling**: User-friendly error messages with retry
-- **Message Validation**: Character limit and empty message checks
-- **Auto-scroll**: Automatically scrolls to latest messages
-- **Clear Chat**: Reset conversation with confirmation
+- **Real-time Streaming**: AI responses appear word-by-word using Server-Sent Events.
+- **Dark/Light Mode**: Full theme support with persistence using `localStorage`.
+- **Message Search**: Filter through chat history instantly with the search bar.
+- **Export Chat**: Download your conversation as a `.txt` file for future reference.
+- **Weather Icons**: Dynamic icons appear based on weather conditions mentioned in the chat.
+- **Responsive Design**: Mobile-first approach (320px+) with smooth transitions.
+- **Error Handling**: Graceful error catching and retry functionality.
+- **Message Validation**: Length checks and empty input prevention.
+- **Auto-scroll**: Seamlessly follows the conversation.
+- **Clear Chat**: Easily reset your history.
 
 ---
 
 ## 🛠️ Technology Stack
 
-- **Framework**: Next.js 15 (App Router)
+- **Framework**: Next.js 16 (App Router)
+- **Styling**: Tailwind CSS v4
+- **Context**: React Context for Theme management
 - **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **API**: Server-Sent Events (SSE) streaming
 
 ---
 
@@ -55,49 +49,55 @@ npm start
 ```
 src/
 ├── app/
-│   ├── api/chat/route.ts    # API proxy for weather agent
-│   ├── page.tsx              # Main chat interface
-│   └── layout.tsx            # Root layout
+│   ├── api/chat/route.ts    # SSE stream handler with specific API specs
+│   ├── page.tsx              # Main chat interface with Search & Export
+│   └── layout.tsx            # Theme provider setup
 ├── components/
-│   ├── ChatMessage.tsx       # Message display
-│   ├── ChatInput.tsx         # Input field
-│   └── ErrorMessage.tsx      # Error display
+│   ├── ThemeToggle.tsx       # Dark/Light mode switch
+│   ├── ChatMessage.tsx       # Message bubbles with Weather Icons
+│   ├── ChatInput.tsx         # User input
+│   └── ErrorMessage.tsx      # Error UI
+├── contexts/
+│   └── ThemeContext.tsx      # Global theme state
 ├── services/
-│   └── weatherApi.ts         # API service layer
+│   └── weatherApi.ts         # Stream parsing service
 └── types/
-    └── chat.ts               # TypeScript definitions
+    └── chat.ts               # Type definitions
 ```
 
 ---
 
-## 💡 Design Decisions
+## 💡 Key Implementations
 
-### Why Next.js API Route?
-The weather API requires specific headers that browsers block due to CORS. Using a Next.js API route:
-- Bypasses CORS restrictions
-- Allows setting all required headers (Connection: keep-alive, etc.)
-- Handles Server-Sent Events (SSE) parsing server-side
+### Phase 13: Bonus Features
+- **Dark/Light Toggle**: Implemented using React Context and a blocking script for zero flicker.
+- **Export Chat**: A dedicated button in the header parses the `messages` state into a format-friendly text file and triggers a client-side download.
+- **Weather Icons**: The `ChatMessage` component includes a `getWeatherIcon` parser that matches keywords (sunny, rain, snow, etc.) to appropriate emojis.
+- **Message Search**: Added a real-time filter to the message list, allowing users to find specific information quickly within long threads.
 
-### Why Server-Sent Events?
-The API returns streaming responses in SSE format:
-```
-data: {"type":"text-delta","payload":{"text":"Hello"}}
-```
-We parse these events server-side and stream only the text to the client for real-time updates.
+### API Integration
+The application connects to a working weather agent API:
+- **Endpoint**: Uses the functional `test-agent` endpoint as the provided Mastra cloud endpoint was found to be unresponsive during development.
+- **Headers**: Includes all required headers including `x-mastra-dev-playground`.
+- **Streaming**: Full SSE support implemented for real-time response visualization.
 
-### State Management
-Used React's built-in `useState` hooks instead of Redux/Context because:
-- Simple linear data flow
-- No complex state sharing needed
-- Smaller bundle size
-- Easier to understand and maintain
+### Theme Management (v4)
+Tailwind CSS v4 handles dark mode differently. We implemented a custom variant in `globals.css` to allow switching themes via a `.dark` class on the root element, ensuring no "flash of unstyled content" (FOUC) using a blocking script in the layout head.
 
-### Mobile-First Design
-Started with mobile (320px) and progressively enhanced for larger screens using Tailwind's responsive prefixes (`sm:`, `md:`, `lg:`).
+### Hydration Fixes
+To prevent hydration mismatches common with browser extensions (like Grammarly) and theme switching, we use `suppressHydrationWarning` on the root elements and handle theme state only after the component mounts in the toggle.
+
+### Streaming Architecture
+The app connects to the weather API via a Next.js API Route which parses raw Server-Sent Events and pipes the text deltas to the frontend for a smooth typing effect.
 
 ---
 
 ## 🧪 Testing
+Run development server and verify:
+1. Theme toggle persists after refresh.
+2. Weather queries respond with streaming text.
+3. Errors show up when API fails.
+4. Layout responds correctly from 320px up to 1200px.
 
 ### Sample Queries
 ```
@@ -127,12 +127,12 @@ Temperature in Tokyo right now
 
 ## 🔮 Future Enhancements
 
-- Dark mode toggle
-- Export chat history (JSON/TXT)
 - Message persistence (localStorage/database)
-- Weather icons and visualizations
 - Multiple conversation threads
 - Voice input support
+- Real-time weather visualizations (charts/graphs)
+- Location auto-detection using Geolocation API
+- PWA (Progressive Web App) support for offline access
 
 ---
 
@@ -171,10 +171,15 @@ Hard refresh browser (Ctrl+Shift+R)
 - Email: rinipari14@student.sfit.ac.in
 - GitHub: rinipd(https://github.com/rinipd)
 
+
 ---
 
 ## 🙏 Acknowledgments
 
-Built with Next.js, TypeScript, and Tailwind CSS for [Course/Assignment Name].
+- **Assignment Provider** - For the challenging and practical project requirements
+- **Next.js Team** - For the excellent framework and documentation
+- **Vercel** - For the deployment platform
+- **Tailwind CSS** - For the utility-first CSS framework
+- **Weather API Provider** - For providing real-time weather data
 
 ---

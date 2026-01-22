@@ -3,7 +3,7 @@
 A real-time weather chat application built with Next.js 16 and TypeScript, featuring dark/light mode and streaming AI responses.
 
 **🔗 Links:**
-- **Live Demo:** [https://weatherchat-app.vercel.app/](https://weatherchat-app.vercel.app/)
+- **Live Demo:** [https://weather-chat-app-ten.vercel.app/](https://weather-chat-app-ten.vercel.app/)
 - **Repository:** [https://github.com/rinipd/weather-chat-app](https://github.com/rinipd/weather-chat-app)
 
 ## 🚀 Quick Start

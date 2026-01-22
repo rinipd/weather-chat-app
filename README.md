@@ -2,6 +2,10 @@
 
 A real-time weather chat application built with Next.js 16 and TypeScript, featuring dark/light mode and streaming AI responses.
 
+**🔗 Links:**
+- **Live Demo:** [https://weatherchat-app.vercel.app/](https://weatherchat-app.vercel.app/)
+- **Repository:** [https://github.com/rinipd/weather-chat-app](https://github.com/rinipd/weather-chat-app)
+
 ## 🚀 Quick Start
 
 ### Prerequisites
@@ -27,6 +31,9 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 - **Dark/Light Mode**: Full theme support with persistence using `localStorage`.
 - **Message Search**: Filter through chat history instantly with the search bar.
 - **Export Chat**: Download your conversation as a `.txt` file for future reference.
+- **Message Reactions**: Thumbs up/down feedback on agent responses.
+- **Delivery Status**: Visual indicators (checks) for sent messages.
+- **Copy to Clipboard**: Easily copy message text with a single click.
 - **Weather Icons**: Dynamic icons appear based on weather conditions mentioned in the chat.
 - **Responsive Design**: Mobile-first approach (320px+) with smooth transitions.
 - **Error Handling**: Graceful error catching and retry functionality.
@@ -69,11 +76,12 @@ src/
 
 ## 💡 Key Implementations
 
-### Phase 13: Bonus Features
+### Bonus Features
 - **Dark/Light Toggle**: Implemented using React Context and a blocking script for zero flicker.
 - **Export Chat**: A dedicated button in the header parses the `messages` state into a format-friendly text file and triggers a client-side download.
 - **Weather Icons**: The `ChatMessage` component includes a `getWeatherIcon` parser that matches keywords (sunny, rain, snow, etc.) to appropriate emojis.
 - **Message Search**: Added a real-time filter to the message list, allowing users to find specific information quickly within long threads.
+- **Interactive Elements**: UI polish including Message Reactions (Usefulness feedback), One-click Copy functionality, and Delivery Status ticks to enhance user engagement.
 
 ### API Integration
 The application connects to a working weather agent API:

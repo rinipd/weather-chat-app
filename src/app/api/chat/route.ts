@@ -31,7 +31,9 @@ export async function POST(request: NextRequest) {
 
     console.log('Received prompt:', prompt);
 
-    const response = await fetch('https://api-dev.provue.ai/api/webapp/agent/test-agent', {
+    const apiUrl = process.env.WEATHER_AGENT_API_URL || 'https://api-dev.provue.ai/api/webapp/agent/test-agent';
+
+    const response = await fetch(apiUrl, {
       method: 'POST',
       headers: {
         'Accept': '*/*',

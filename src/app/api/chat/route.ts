@@ -1,5 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+/**
+ * API Route: /api/chat
+ * 
+ * Purpose: Server-side proxy for weather agent API
+ * 
+ * Why server-side?
+ * - Bypasses CORS restrictions
+ * - Allows setting all required headers (Connection, etc.)
+ * - Better error handling and security
+ * - Can add authentication/rate limiting in future
+ * 
+ * Flow:
+ * 1. Validate incoming request
+ * 2. Forward to external weather API
+ * 3. Parse Server-Sent Events (SSE) stream
+ * 4. Extract text-delta events
+ * 5. Stream back to client
+ */
+
 export async function POST(request: NextRequest) {
   try {
     // Parse and validate request body

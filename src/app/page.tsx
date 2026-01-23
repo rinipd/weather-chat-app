@@ -8,19 +8,44 @@ import ThemeToggle from '../components/ThemeToggle';
 import { Message } from '../types/chat';
 import { sendMessageToAgent } from '../services/weatherApi';
 
+/**
+ * Main Chat Page Component
+ * 
+ * Handles the entire chat interface including:
+ * - Message state management
+ * - API communication
+ * - Error handling
+ * - User interactions
+ */
 export default function Home() {
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [lastUserMessage, setLastUserMessage] = useState<string>('');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [isSearchVisible, setIsSearchVisible] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  // State Management
+  const [messages, setMessages] = useState<Message[]>([]); // All chat messages
+  const [isLoading, setIsLoading] = useState(false); // Loading state during API calls
+  const [error, setError] = useState<string | null>(null); // Current error message if any
+  const [lastUserMessage, setLastUserMessage] = useState<string>(''); // Store for retry functionality
+  const [searchQuery, setSearchQuery] = useState(''); // Search query for filtering messages
+  const [isSearchVisible, setIsSearchVisible] = useState(false); // Toggle search bar visibility
+  const messagesEndRef = useRef<HTMLDivElement>(null); // Reference for auto-scroll
 
+  // Auto-scroll to bottom when new messages arrive or errors occur
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, error]);
 
+  /**
+   * Handle sending a new message
+   * 
+   * @param content - The message text from user input
+   * 
+   * Flow:
+   * 1. Validate input (empty check, length check)
+   * 2. Add user message to chat
+   * 3. Create placeholder for agent response
+   * 4. Call API with streaming
+   * 5. Update agent message as chunks arrive
+   * 6. Handle errors gracefully
+   */
+  
   const handleSendMessage = async (content: string) => {
     if (!content || content.trim() === '') {
       setError('Please enter a message before sending.');

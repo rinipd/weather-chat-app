@@ -1,3 +1,14 @@
+/**
+ * Weather API Service
+ * 
+ * Handles all communication with the weather agent API
+ * Features:
+ * - Streaming response handling
+ * - Timeout management (30s)
+ * - Comprehensive error handling
+ * - Network error detection
+ */
+
 const API_ENDPOINT = '/api/chat';
 
 /**
